@@ -1,157 +1,129 @@
-[![Review Assignment Due Date](https://classroom.github.com/assets/deadline-readme-button-22041afd0340ce965d47ae6ef1cefeee28c7c493a6346c4f15d667ab976d596c.svg)](https://classroom.github.com/a/tfm_-hwX)
 # Project 2: Moonlight Museum After Dark
 
 ## Team information
-- Team name:
-- Members:
-- Repository name:
+- Team name: Moonlight Coders
+- Members: Istiaksopnil
+- Repository name: project-2-moonlight-museum-after-dark
 
 ---
 
 ## Project summary
-Write 2-4 sentences explaining what your museum system does.
-
-Example starters:
-- Our project builds a system for organizing strange museum artifacts after dark.
-- The system uses multiple data structures to manage artifacts, requests, routes, and reports.
+Our project builds a system for organizing museum artifacts after dark using multiple data structures. The system uses a BST to store and search artifacts by ID, a queue to manage restoration requests in order, a stack to undo archive actions, and a singly linked list to manage exhibit routes. Utility functions provide reporting features such as category counts, room lists, age sorting, and name search.
 
 ---
 
 ## Feature checklist
-Mark each item when it is working.
 
 ### Core structures
-- [ ] `Artifact` class/record
-- [ ] `ArtifactBST`
-- [ ] `RestorationQueue`
-- [ ] `ArchiveUndoStack`
-- [ ] `ExhibitRoute` singly linked list
+- [x] `Artifact` class/record
+- [x] `ArtifactBST`
+- [x] `RestorationQueue`
+- [x] `ArchiveUndoStack`
+- [x] `ExhibitRoute` singly linked list
 
 ### BST features
-- [ ] insert artifact
-- [ ] search by ID
-- [ ] preorder traversal
-- [ ] inorder traversal
-- [ ] postorder traversal
-- [ ] duplicate IDs ignored
+- [x] insert artifact
+- [x] search by ID
+- [x] preorder traversal
+- [x] inorder traversal
+- [x] postorder traversal
+- [x] duplicate IDs ignored
 
 ### Queue features
-- [ ] add request
-- [ ] process next request
-- [ ] peek next request
-- [ ] empty check
-- [ ] size
+- [x] add request
+- [x] process next request
+- [x] peek next request
+- [x] empty check
+- [x] size
 
 ### Stack features
-- [ ] push action
-- [ ] undo last action
-- [ ] peek last action
-- [ ] empty check
-- [ ] size
+- [x] push action
+- [x] undo last action
+- [x] peek last action
+- [x] empty check
+- [x] size
 
 ### Linked list features
-- [ ] add stop to end
-- [ ] remove first matching stop
-- [ ] list stops in order
-- [ ] count stops
+- [x] add stop to end
+- [x] remove first matching stop
+- [x] list stops in order
+- [x] count stops
 
 ### Utility/report features
-- [ ] category counts
-- [ ] unique rooms
-- [ ] sort by age
-- [ ] linear search by name
+- [x] category counts
+- [x] unique rooms
+- [x] sort by age
+- [x] linear search by name
 
 ### Integration
-- [ ] `demo_museum_night()`
-- [ ] at least 8 artifacts in demo
-- [ ] demo shows system parts working together
+- [x] `demo_museum_night()`
+- [x] at least 8 artifacts in demo
+- [x] demo shows system parts working together
 
 ---
 
-## Design note (150-250 words)
-Explain your main design choices.
-
-Things to include:
-- Why a BST makes sense for artifact IDs
-- Why a queue fits restoration requests
-- Why a stack fits undo actions
-- Why a linked list fits an exhibit route
-- How your system is organized across classes and functions
-
-Write your note here:
+## Design note
+A BST was chosen for artifact storage because artifact IDs are unique integers, making them ideal BST keys. This allows efficient search, insert, and sorted traversal in O(h) time where h is the tree height. A queue was chosen for restoration requests because museum staff process them in first-come, first-served order — exactly what a queue guarantees. A stack was chosen for undo actions because the most recent action is always the first to be undone, which matches the last-in, first-out behavior of a stack. A singly linked list was chosen for the exhibit route because visitors follow stops in a fixed forward order, and the route changes dynamically as stops are added or removed. The system is organized so that each data structure is its own class with clear methods, and utility functions operate on plain Python lists of Artifact objects for simplicity and flexibility. This separation keeps each component focused and easy to test independently.
 
 ---
 
 ## Complexity reasoning
-Write short, specific explanations.
 
-### Example format
-- `ArtifactBST.search_by_id`: `O(h)` where `h` is the tree height, because the search follows one path from the root down.
-- `RestorationQueue.process_next_request`: `O(1)` because deque removal from the front is constant time.
-
-### Your required entries
-- `ArtifactBST.insert`:
-- `ArtifactBST.search_by_id`:
-- `ArtifactBST.inorder_ids`:
-- `RestorationQueue.process_next_request`:
-- `ArchiveUndoStack.undo_last_action`:
-- `ExhibitRoute.remove_stop`:
-- `sort_artifacts_by_age`:
-- `linear_search_by_name`:
+- `ArtifactBST.insert`: O(h) where h is the tree height, because the method follows one path from root to the insertion point.
+- `ArtifactBST.search_by_id`: O(h) where h is the tree height, because the search follows one path from the root down.
+- `ArtifactBST.inorder_ids`: O(n) because every node in the tree is visited exactly once.
+- `RestorationQueue.process_next_request`: O(1) because deque removal from the front is constant time.
+- `ArchiveUndoStack.undo_last_action`: O(1) because Python list pop from the end is constant time.
+- `ExhibitRoute.remove_stop`: O(n) because the list must be traversed to find the matching stop.
+- `sort_artifacts_by_age`: O(n log n) because Python's built-in Timsort is used.
+- `linear_search_by_name`: O(n) because the list is scanned one item at a time until a match is found.
 
 ---
 
 ## Edge-case checklist
-Explain how your code handles each case.
 
 ### BST
-- [ ] insert into empty tree
-- [ ] search for missing ID
-- [ ] empty traversals
-- [ ] duplicate ID
+- [x] insert into empty tree — root is set to the new node directly.
+- [x] search for missing ID — returns None when traversal hits a null node.
+- [x] empty traversals — returns empty list when root is None.
+- [x] duplicate ID — insert returns False without modifying the tree.
 
 ### Queue
-- [ ] process empty queue
-- [ ] peek empty queue
+- [x] process empty queue — returns None when deque is empty.
+- [x] peek empty queue — returns None when deque is empty.
 
 ### Stack
-- [ ] undo empty stack
-- [ ] peek empty stack
+- [x] undo empty stack — returns None when list is empty.
+- [x] peek empty stack — returns None when list is empty.
 
 ### Exhibit route linked list
-- [ ] empty route
-- [ ] remove missing stop
-- [ ] remove first stop
-- [ ] remove middle stop
-- [ ] remove last stop
-- [ ] one-stop route
+- [x] empty route — remove_stop returns False, list_stops returns empty list.
+- [x] remove missing stop — returns False without modifying the list.
+- [x] remove first stop — head is updated to the next node.
+- [x] remove middle stop — previous node's next pointer skips the removed node.
+- [x] remove last stop — previous node's next is set to None.
+- [x] one-stop route — remove sets head to None.
 
 ### Reports
-- [ ] empty artifact list
-- [ ] repeated categories
-- [ ] repeated rooms
-- [ ] missing artifact name
-- [ ] same-age artifacts
+- [x] empty artifact list — all utility functions return empty results.
+- [x] repeated categories — count_artifacts_by_category increments correctly.
+- [x] repeated rooms — unique_rooms returns only distinct room names.
+- [x] missing artifact name — linear_search_by_name returns None.
+- [x] same-age artifacts — sort_artifacts_by_age preserves stable order.
 
 ---
 
 ## Demo plan / how to run
-Explain how someone should run your project.
 
-Example:
 ```bash
 pytest -q
 python -c "from src.project import demo_museum_night; demo_museum_night()"
 ```
 
-Write your steps here:
-
 ---
 
 ## Assistance & sources
-This section is required.
-
-- AI used? (Y/N)
-- What it helped with:
-- Non-course sources used:
-- Links:
+- AI used? Y
+- What it helped with: Structuring the demo function and completing the README.
+- Non-course sources used: Python Official Documentation for `collections.deque` and `dataclasses`.
+- Links: https://docs.python.org/3/library/collections.html
